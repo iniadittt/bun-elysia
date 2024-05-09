@@ -14,14 +14,17 @@ window.addEventListener(
           document.getElementById("listBelumSelesai");
         const listSelesaiTemplate = document.getElementById("listSelesai");
         if (!data || data.length === 0) {
-          listBelumSelesaiTemplate.innerHTML = "Tidak ada Todo List";
-          listSelesaiTemplate.innerHTML = "Tidak ada Todo List";
+          listBelumSelesaiTemplate.innerHTML = "Tidak ada task";
+          listSelesaiTemplate.innerHTML = "Tidak ada task yang selesai";
         } else {
           const listBelumSelesai = data.filter((todo) => todo.status === false);
           const listSelesai = data.filter((todo) => todo.status === true);
-          listBelumSelesaiTemplate.innerHTML = listBelumSelesai
-            .map((todo) => {
-              return `
+          if (listBelumSelesai.length === 0) {
+            listBelumSelesaiTemplate.innerHTML = "Tidak ada task";
+          } else {
+            listBelumSelesaiTemplate.innerHTML = listBelumSelesai
+              .map((todo) => {
+                return `
                 <tr>
                     <td>${todo.title}</td>
                     <td>${todo.description}</td>
@@ -30,11 +33,15 @@ window.addEventListener(
                         <i class="fa-solid fa-trash" onClick="deleteTodo(${todo.id})"></i>
                     </td>
                     </tr>`;
-            })
-            .join("");
-          listSelesaiTemplate.innerHTML = listSelesai
-            .map((todo) => {
-              return `
+              })
+              .join("");
+          }
+          if (listSelesai.length === 0) {
+            listSelesaiTemplate.innerHTML = "Tidak ada task yang selesai";
+          } else {
+            listSelesaiTemplate.innerHTML = listSelesai
+              .map((todo) => {
+                return `
                     <tr>
                     <td>${todo.title}</td>
                     <td>${todo.description}</td>
@@ -43,8 +50,9 @@ window.addEventListener(
                         <i class="fa-solid fa-trash" onClick="deleteTodo(${todo.id})"></i>
                     </td>
                 </tr>`;
-            })
-            .join("");
+              })
+              .join("");
+          }
         }
       });
   },
