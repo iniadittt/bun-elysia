@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO with Elysia</title>
+    <!-- CSS Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+    <!-- Icon FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body style="background-color: #00425A;">
+    <div class="container ms-auto mt-4 p-4 bg-white rounded">
+        <div class="row">
+            <h1 class="pt-1 pb-1">Aplikasi To Do List ELYSIA</h1>
+            <hr>
+            <div class="row mb-3">
+                <div class="row mb-3">
+                    <label for="todoText" class="col-md-2 col-form-label">Kegiatanmu : </label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="title" placeholder="Masukan Judul Kegiatan">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="todoText" class="col-md-2 col-form-label">Deskripsi : </label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="description" placeholder="Masukan Deskripsi">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="todoText" class="col-md-2 col-form-label"></label>
+                    <div class="col-md-4">
+                        <button onclick="addTodo()" class="btn btn-primary btn-sm">Tambahkan</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <div class="col-md-12">
+                        <h2>Kegiatan Belum Selesai</h2>
+                        <br>
+                        <table class="table table-striped">
+                            <thead>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Aksi</th>
+                            </thead>
+                            <tbody id="listBelumSelesai"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="col-md-12">
+                        <h2>Kegiatan Selesai</h2>
+                        <br>
+                        <table class="table table-striped">
+                            <thead>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Aksi</th>
+                            </thead>
+                            <tbody id="listSelesai"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-6 m-2">
+
+        <div class="toast text-bg-success" role="alert" id="liveToastSuccessAdd">
+            <div class="toast-body">
+                <div class="d-flex gap-4">
+                    <span><i class="fa-solid fa-circle-check fa-lg"></i></span>
+                    <div class="d-flex flex-grow-1 align-items-center">
+                        <span class="fw-semibold">Berhasil Menambahkan Task</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast text-bg-success" role="alert" id="liveToastSuccessPatch">
+            <div class="toast-body">
+                <div class="d-flex gap-4">
+                    <span><i class="fa-solid fa-circle-check fa-lg"></i></span>
+                    <div class="d-flex flex-grow-1 align-items-center">
+                        <span class="fw-semibold">Berhasil Mengupdate Task</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast text-bg-success" role="alert" id="liveToastSuccessDelete">
+            <div class="toast-body">
+                <div class="d-flex gap-4">
+                    <span><i class="fa-solid fa-circle-check fa-lg"></i></span>
+                    <div class="d-flex flex-grow-1 align-items-center">
+                        <span class="fw-semibold">Berhasil Menghapus Task</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="toast text-bg-danger" role="alert" id="liveToastFailedAdd">
+            <div class="toast-body">
+                <div class="d-flex gap-4">
+                    <span><i class="fa-solid fa-circle-exclamation fa-lg"></i></span>
+                    <div class="d-flex flex-grow-1 align-items-center">
+                        <span class="fw-semibold">Gagal Menambahkan Task</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast text-bg-danger" role="alert" id="liveToastFailedPatch">
+            <div class="toast-body">
+                <div class="d-flex gap-4">
+                    <span><i class="fa-solid fa-circle-exclamation fa-lg"></i></span>
+                    <div class="d-flex flex-grow-1 align-items-center">
+                        <span class="fw-semibold">Gagal Mengupdate Task</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast text-bg-danger" role="alert" id="liveToastFailedDelete">
+            <div class="toast-body">
+                <div class="d-flex gap-4">
+                    <span><i class="fa-solid fa-circle-exclamation fa-lg"></i></span>
+                    <div class="d-flex flex-grow-1 align-items-center">
+                        <span class="fw-semibold">Gagal Menghapus Task</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+    integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+    crossorigin="anonymous"></script>
+<script src="/script.js"></script>
+
+</html>
