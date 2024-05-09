@@ -10,15 +10,15 @@ window.addEventListener(
       .then((res) => res.json())
       .then((todos) => {
         const data = todos.data;
-        if (!data) {
-          document.getElementById("todoTemplate").innerHTML =
-            "Todo tidak tersedia";
+        const listBelumSelesaiTemplate =
+          document.getElementById("listBelumSelesai");
+        const listSelesaiTemplate = document.getElementById("listSelesai");
+        if (!data || data.length === 0) {
+          listBelumSelesaiTemplate.innerHTML = "Tidak ada Todo List";
+          listSelesaiTemplate.innerHTML = "Tidak ada Todo List";
         } else {
           const listBelumSelesai = data.filter((todo) => todo.status === false);
           const listSelesai = data.filter((todo) => todo.status === true);
-          const listBelumSelesaiTemplate =
-            document.getElementById("listBelumSelesai");
-          const listSelesaiTemplate = document.getElementById("listSelesai");
           listBelumSelesaiTemplate.innerHTML = listBelumSelesai
             .map((todo) => {
               return `
