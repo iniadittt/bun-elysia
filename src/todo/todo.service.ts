@@ -7,7 +7,7 @@ const TodoService = {
     if (todos.length === 0) return null;
     const todosRef = todos.map((todo) => ({
       ...todo,
-      status: todo.status === "0" ? false : true,
+      status: parseInt(todo.status) === 0 ? false : true,
     }));
     return todosRef;
   },

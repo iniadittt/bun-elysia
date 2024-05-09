@@ -9,7 +9,6 @@ window.addEventListener(
     })
       .then((res) => res.json())
       .then((todos) => {
-        console.log(todos);
         const data = todos.data;
         if (!data) {
           document.getElementById("todoTemplate").innerHTML =
@@ -84,7 +83,6 @@ const updateTodo = (id, status) => {
 const addTodo = () => {
   const title = document.getElementById("title").value;
   const description = document.getElementById("description").value;
-  console.log({ title, description });
   if (!title || !description) return alert("Semua data harus diisi");
   fetch("/todo", {
     method: "POST",
